@@ -11,7 +11,7 @@ public class TicTacToe extends JFrame{
 	public TicTacToe(){
 		setTitle("TicTacToe");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
-		setSize(400, 400);
+		setSize(400, 600);
 		setLocationRelativeTo(null);
 		setResizable(false);
 		
@@ -23,18 +23,21 @@ public class TicTacToe extends JFrame{
 		contents.add(label);
 		
 		for(int i = 0; i < 9; i++) {
+	
 			JButton but = new JButton();
 			but.setName("B" + Integer.toString(i));	
 			but.setPreferredSize(new Dimension(100,100));
 			contents.add(but);
+			but.setText(" ");
+			
 			but.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					
 					char[] XorO = label.getText().toCharArray();
-					if (XorO[XorO.length - 1] == 'X') {
+					if (XorO[XorO.length - 1] == 'X' && but.getText().equals(" ")) {
 						but.setText("X");
 						label.setText("Now O");
-					} else {
+					} else if(but.getText().equals(" ")) {
 						but.setText("0");
 						label.setText("Now X");
 					}
@@ -44,6 +47,22 @@ public class TicTacToe extends JFrame{
 		
 		
 		}
+		
+		JButton restart = new JButton("Restart");
+		restart.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				label.setName("Begin X");
+				for (int p = 1; p < 10; p++) {
+					Component comp2 = contents.getComponent(p);
+					JButton but2 = (JButton) comp2;
+					but2.setEnabled(true);
+					but2.setText(" ");
+				}	
+			}
+		});
+		
+		restart.setPreferredSize(new Dimension(300, 50));
+		contents.add(restart);
 		
 		add(contents);
 		setVisible(true);
@@ -58,22 +77,64 @@ public class TicTacToe extends JFrame{
 				JButton but = new JButton();
 				but = (JButton) component;
 				text += but.getText();
-				
-				if(text.length() == 9) {
-					
-					
-					
-					
-					for (int j = 1; j < 10; j++) {
-						Component comp = panel.getComponent(j);
-						JButton but2 = (JButton) comp;
-						but2.setEnabled(false);
-				}
 			}
 		}
 		
-		}
+		
+		
+		if(text.length() == 9) {
+			//System.out.println(text);
+			char[] ans = text.toCharArray();
+			
+			String s1, s2, s3;
+			s1 = "";
+			s2 = "";
+			s3 = "";
+			
+			for(int j = 0; j < 3; j++) {
+				s1 += ans[j];
+				s2 += ans[j+3];
+				s3 += ans[j+6];
+			}
+			
+			String s = s1+" "+s2+" "+s3+" "+ans[2]+ans[4]+ans[6]+" "+ans[0]+ans[4]+ans[8]+" "+ans[0]+ans[3]+ans[6]+" "+ans[1]+ans[4]+ans[7]+" "+ans[2]+ans[5]+ans[8];
+			System.out.println(s);
+			char[] str = s.toCharArray();
+			int k = 1;
+			
+			for(int j = 0; j < str.length-1; j++) {
+				
+				if (str[j] == str[j+1] && (str[j] == '0' || str[j] == 'X')) {
+					k += 1;
+					
+					if(k == 3) {
+						Component comp = panel.getComponent(0);
+						JLabel label = new JLabel();
+						label = (JLabel) comp;
+						label.setText("Winner is " + str[j]);
+						
+						for (int p = 1; p < 10; p++) {
+							Component comp2 = panel.getComponent(p);
+							JButton but2 = (JButton) comp2;
+							but2.setEnabled(false);
+						}	
+						
+					}
+					
+				} else {
+					k = 1;
+				}
+			}
+			
+			/*	
+			for (int j = 1; j < 10; j++) {
+				Component comp = panel.getComponent(j);
+				JButton but2 = (JButton) comp;
+				but2.setEnabled(false);
+			}*/
 	}
+}
+
 	
 
 	public static void main(String[] args) {
