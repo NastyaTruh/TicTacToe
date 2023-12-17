@@ -1,0 +1,84 @@
+package TicTacToe;
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.*;
+
+public class TicTacToe extends JFrame{
+
+	public TicTacToe(){
+		setTitle("TicTacToe");
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setSize(400, 400);
+		setLocationRelativeTo(null);
+		setResizable(false);
+		
+		JPanel contents = new JPanel(new FlowLayout());
+		JLabel label = new JLabel("Begin X");
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+		label.setPreferredSize(new Dimension(300, 40));
+		label.setName("L");
+		contents.add(label);
+		
+		for(int i = 0; i < 9; i++) {
+			JButton but = new JButton();
+			but.setName("B" + Integer.toString(i));	
+			but.setPreferredSize(new Dimension(100,100));
+			contents.add(but);
+			but.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					char[] XorO = label.getText().toCharArray();
+					if (XorO[XorO.length - 1] == 'X') {
+						but.setText("X");
+						label.setText("Now O");
+					} else {
+						but.setText("0");
+						label.setText("Now X");
+					}
+					logic(contents);
+				}
+			});
+		
+		
+		}
+		
+		add(contents);
+		setVisible(true);
+	}
+	
+	void  logic(JPanel panel) {
+		String text = "";
+		for (int i = 1; i < 10; i++) {
+			Component component = panel.getComponent(i);
+			
+			if(component instanceof JButton) {
+				JButton but = new JButton();
+				but = (JButton) component;
+				text += but.getText();
+				
+				if(text.length() == 9) {
+					
+					
+					
+					
+					for (int j = 1; j < 10; j++) {
+						Component comp = panel.getComponent(j);
+						JButton but2 = (JButton) comp;
+						but2.setEnabled(false);
+				}
+			}
+		}
+		
+		}
+	}
+	
+
+	public static void main(String[] args) {
+		TicTacToe play = new TicTacToe();
+
+	}
+
+}
